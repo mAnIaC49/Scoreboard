@@ -1,0 +1,115 @@
+{% extends 'cricket/layout.html' %}
+{% load static %}
+
+{% block body %}
+<div style="text-align: center;">
+    <img src="{{ MEDIA_URL }}{{ team1.logo }}" alt="logo" height="15%" width="20%">
+    <span style="margin: 20%;"> VS </span>
+    <img src="{{ MEDIA_URL }}{{ team2.logo }}" alt="logo" height="15%" width="20%">
+</div>
+
+<div style="text-align: center; display: none;" id="type-container">
+    <h4 style="margin: 30px;">Game type</h4>
+    <div>
+        <button id="btn-t20" class="btn btn-danger" style="margin-right: 5px;">T20</button>
+        <button id="btn-odi" class="btn btn-danger" style="margin-left: 5px;">ODI</button>
+    </div>
+</div>
+
+<div style="display: none; text-align: center;" id="first-container">
+    <h4 style="margin: 30px;">First to bat</h4>
+    <div>
+        <button id="btn-team1" class="btn btn-danger" style="margin-right: 5px;">{{ team1.name }}</button>
+        <button id="btn-team2" class="btn btn-danger" style="margin-left: 5px;">{{ team2.name }}</button>
+    </div>
+</div>
+
+<div style="text-align: center; display: none;" id="players1">
+    <h4 style="margin: 30px;">Select Players for {{ team1.name }}</h4>
+    <form>
+        {% for player in players1 %}
+            <input name="group" type="checkbox" class="btn-check" id="{{ player.pk }}" data-id="{{ player.pk }}" autocomplete="off">
+            <label class="btn" for="{{ player.pk }}">{{player.first}} {{player.last}}</label>
+        {% endfor %}
+        <div>
+            <input type="submit" class="btn btn-danger" style="margin: 20px;">
+        </div>
+    </form>
+</div>
+
+<div style="text-align: center; display: none;" id="players2">
+    <h4 style="margin: 30px;">Select Players for {{ team2.name }}</h4>
+    <form>
+        {% for player in players2 %}
+            <input name="group" type="checkbox" class="btn-check" autocomplete="off" id="{{ player.pk }}" data-id="{{ player.pk }}">
+            <label class="btn" for="{{ player.pk }}">{{player.first}} {{player.last}}</label>
+        {% endfor %}
+
+        <div>
+            <input type="submit" class="btn btn-danger" style="margin: 20px;">
+        </div>
+
+    </form>
+</div>
+
+<div style="display: none; text-align: center; padding-top: 3%;" id="gameplay">
+
+    <div id="select-batsman" style="display: none;">
+        <form>
+            <div class="row d-flex justify-content-center" style="margin-top: 20px;">
+                <div class="col col-6">
+                    <select class="form-select border border-black" aria-label="Default select example" name="batsman" id="batsman">
+                        <option selected>Select Batsman</option>
+                        
+                    </select>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <input type="submit" class="btn btn-danger">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="select-bowler" style="display: none; text-align: center;">
+        <form>
+            <div class="row d-flex justify-content-center" style="margin-top: 20px;">
+                <div class="col col-6">
+                    <select class="form-select border border-black" aria-label="Default select example" name="bowler" id="bowler">
+                        <option selected>Select Bowler</option>
+                        
+                    </select>
+                    
+                    <div style="margin-top: 40px;">
+                        <input type="submit" class="btn btn-danger">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="present" style="display: none;">
+        <div style="font-weight: bold; font-size: large; margin-bottom: 10px;"> Inning: {{ game.inning }}</div>
+        <div><span style="font-weight: bold;" id="bat"></span>: <span id="score"></span>/<span id="wicket"></span></div>
+        <div>overs: <span id="over"></span>.<span id="balls"></span></div>
+
+        <div style="text-align: left; margin-left: 20%; margin-top: 3%;">
+            <b>Bowler:</b> <span id="bowler_name"></span> <br>
+            <b>Strike:</b> <span id="strike"></span> <br>
+            <b>Non-Strike:</b> <span id="non_strike"></span>
+        </div>
+
+        <div style="margin-top: 3%; margin-bottom: 5%;">
+            <b>Bowl <span id="number"></span>: <button class="btn btn-danger result" style="margin-left: 2%;">wide</button> <button class="btn btn-danger result">out</button>
+            <button class="btn btn-danger result">six</button> <button class="btn btn-danger result">four</button> <button class="btn btn-danger result">one</button>
+            <button class="btn btn-danger result">two</button> <button class="btn btn-danger result">three</button> <button class="btn btn-danger result">dot</button>
+            <button class="btn btn-danger result">nb-six</button> <button class="btn btn-danger result">nb-four</button> <button class="btn btn-danger result">nb-one</button>
+            <button class="btn btn-danger result">nb-two</button> <button class="btn btn-danger result">nb-three</button> <button class="btn btn-danger result">nb-dot</button></b>
+        </div>
+
+    </div>
+    <div style="display: none;"><a id="finish" href="{% url 'winner' %}"></a></div>
+
+</div>
+
+{% endblock %}

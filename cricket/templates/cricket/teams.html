@@ -1,0 +1,70 @@
+{% extends 'cricket/layout.html' %}
+{% load static %}
+
+{% block body %}
+    <div id="teams-container">
+        {% for team in teams %}
+        <div class="border-bottom border-secondary-subtle" style="margin-top: 10px;">
+            <div style="display: inline-block;" class="border-end border-secondary-subtle">
+                <img src="{{ MEDIA_URL }}{{ team.logo }}" alt="logo" height="150px" width="150px">
+           </div>
+           <div style="display: inline-block;">
+                <span style="margin-left: 60px;">{{ team.name }}</span>
+           </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; margin-bottom: 20px;">---No Created Teams---</div>
+        {% endfor %}
+
+        <div style="text-align: center;">
+            <button id="new-team" class="btn btn-danger d-grid gap-2 col-3 mx-auto" style="margin-top: 30px;">New Team</button>
+        </div>    
+    </div>
+
+    <div id="new-team-container" style="display: none;">
+        <div class="headings">
+            <h4>New Team</h4>
+        </div>
+
+        <form action="{% url 'teams' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3 d-grid gap-2 col-3 mx-auto">
+                <label for="name-input" class="form-label">Team Name</label>
+                <input name="name" type="text" class="form-control" id="name-input" placeholder="name" autofocus>
+            </div>
+            <div class="mb-3 d-grid gap-2 col-3 mx-auto">
+                <label for="image-input" class="form-label">Team Logo</label>
+                <input name="logo" class="form-control" type="file" id="image-input" accept="image/*">
+            </div>
+
+            <div class="headings">
+                <h4>Players</h4>
+            </div>
+            
+
+            {% for i in range %}
+                <div class="row" style="margin-left: 10px; margin-bottom: 10px;">
+                    {{ i }}
+                    <div class="col-md-3">
+                        <input name="first" type="text" class="form-control" placeholder="First name" aria-label="First name">
+                    </div>
+                    <div class="col-md-3">
+                        <input name="last" type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="type" class="form-select">
+                            <option selected>Player type</option>
+                            <option value="BA">Batsman</option>
+                            <option value="BO">Bowler</option>
+                            <option value="AR">All-rounder</option>
+                            <option value="WK">Wicket-keeper</option>
+                        </select>
+                    </div>
+                </div>
+            {% endfor %}
+            <div style="text-align: center; margin: 30px;">
+                <input type="submit" class="btn btn-danger">
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'cricket/layout.html' %}
+{% load static %}
+
+{% block body %}
+    <div id="winner" style="text-align: center;">
+        <h1>WINNER</h1>
+        <img src="{{ MEDIA_URL }}{{ winner.team.logo }}" alt="logo" height="40%" width="40%">
+        <div>
+            {{ team1.team.name }}: {{ team1.score }}/{{ team1.wickets_down }} <br>
+            {{ team2.team.name }}: {{ team2.score }}/{{ team2.wickets_down }}
+        </div>
+    </div>
+{% endblock %}
